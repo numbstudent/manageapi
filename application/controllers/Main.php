@@ -11,13 +11,13 @@ class Main extends CI_Controller {
 	public function index(){
 		// $url = 'http://103.179.56.140:7771/api/getnumber.php?user=jsu&pass=77jsu77&limit=2';
 		$url = 'http://103.179.56.140:7771/api/getnumber.php';
-		$sample_param = 'user:jsu;pass:77jsu77;limit:20';
+		$sample_param = 'user:jsu;pass:77jsu77;limit:50';
 
-		$url = 'http://103.179.56.140:7771/api/getnumberAAA.php';
-		// $sample_param = 'user:jsu;pass:77jsu77;limit:2';
+		// $url = 'https://api.genderize.io';
+		// $sample_param = 'name:jono';
 
-		// $url = 'http://103.179.56.140:7771/api/getsms.php';
-		// $sample_param = 'user:jsu;pass:77jsu77;number:6285859538256';
+		$url = 'http://103.179.56.140:7771/api/getsms.php';
+		$sample_param = 'user:jsu;pass:77jsu77;number:085771363810';
 
 		// $url = 'http://ip:8888/louissmsginbound.php';
 		// $sample_param = 'user:jsu;pass:77jsu77;number:6285859538256';
@@ -37,17 +37,19 @@ class Main extends CI_Controller {
 		$this->load->view('view_belajar',$data);
 	}
 
-	function save_record($url,$request_type,$parameters,$output){
+	function save_record($url,$request_type,$parameters,$response_code,$output){
 		$data = array(
 			'url' => $url,
 			'request_type' => $request_type,
 			'parameters' => $parameters,
+			'response_code' => $response_code,
 			'result' => $output
 		);
 		$result = $this->m_main->insert_api($data);
 	}
 
 	function get_url($url,$param){
+		$original_url = $url;
 		// create curl resource
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
@@ -76,12 +78,16 @@ class Main extends CI_Controller {
 		$output = curl_exec($ch);
 
 		// close curl resource to free up system resources
+		if (!curl_errno($ch)) {
+			$response_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+			$this->save_record($original_url,'GET',$param,$response_code,$output);
+		}
 		curl_close($ch);  
 		echo $output;
-		$this->save_record($url,'GET',$param,$output);
 	}
 
 	function post_url($url,$param){
+		$original_url = $url;
 		$ch = curl_init();
 		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 		curl_setopt($ch, CURLOPT_URL,$url);
@@ -117,8 +123,11 @@ class Main extends CI_Controller {
 
 		$output = curl_exec($ch);
 
+		if (!curl_errno($ch)) {
+			$response_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+			$this->save_record($original_url,'GET',$param,$response_code,$output);
+		}
 		curl_close($ch);  
 		echo $output;
-		$this->save_record($url,'POST',$param,$output);
 	}
 }
