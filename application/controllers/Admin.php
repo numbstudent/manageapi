@@ -51,7 +51,19 @@ class Admin extends CI_Controller{
 
         $this->table->set_template($template);
 
-        $query = $this->m_main->get_api_list();
+        $f_url = $this->input->get('f_url');
+        $f_request_type = $this->input->get('f_request_type');
+        $f_parameters = $this->input->get('f_parameters');
+        $f_result = $this->input->get('f_result');
+        $f_createdon = $this->input->get('f_createdon');
+
+        $like = array();
+        $like['url'] = $f_url;
+        $like['request_type'] = $f_request_type;
+        $like['parameters'] = $f_parameters;
+        $like['result'] = $f_result;
+        $like['createdon'] = $f_createdon;
+        $query = $this->m_main->get_api_list($like);
         $table = $this->table->generate($query);
         $data = array(
             'table'=>$table

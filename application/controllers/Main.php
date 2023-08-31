@@ -10,22 +10,32 @@ class Main extends CI_Controller {
  
 	public function index(){
 		// $url = 'http://103.179.56.140:7771/api/getnumber.php?user=jsu&pass=77jsu77&limit=2';
-		$url = 'http://103.179.56.140:7771/api/getnumber.php';
-		$sample_param = 'user:jsu;pass:77jsu77;limit:50';
+		// $url = 'http://103.179.56.140:7771/api/getnumber.php';
+		// $sample_param = 'user:jsu;pass:77jsu77;limit:50';
 
 		// $url = 'https://api.genderize.io';
 		// $sample_param = 'name:jono';
 
-		$url = 'http://103.179.56.140:7771/api/getsms.php';
-		$sample_param = 'user:jsu;pass:77jsu77;number:085771363810';
+		// $url = 'http://103.179.56.140:7771/api/getsms.php';
+		// $sample_param = 'user:jsu;pass:77jsu77;number:085771363810';
 
 		// $url = 'http://ip:8888/louissmsginbound.php';
 		// $sample_param = 'user:jsu;pass:77jsu77;number:6285859538256';
+
+		// $param = $sample_param;
+
+		$param = $this->input->post("parameters");
+		$url = $this->input->post("url");
+		$request_type = $this->input->post("request_type");
 		try {
 			if(!$url || !is_string($url) || ! preg_match('/^http(s)?:\/\/[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(\/.*)?$/i', $url)){
 				echo "Invalid url!";
 			}else{
-				$this->get_url($url,$sample_param);
+				if(strtolower($request_type) == 'post'){
+					$this->post_url($url, $param);
+				} else if (strtolower($request_type) == 'get'){
+					$this->get_url($url, $param);
+				}
 			}
 		} catch (Exception $e) {
 			echo 'Web cannot be accessed.';
@@ -113,7 +123,6 @@ class Main extends CI_Controller {
 					echo 'Parameter: '.$value.' is faulty.';
 				}
 			}
-			var_dump($param_arr);
 			curl_setopt($ch, CURLOPT_POSTFIELDS,
 				http_build_query($param_arr));
 		}
@@ -125,7 +134,7 @@ class Main extends CI_Controller {
 
 		if (!curl_errno($ch)) {
 			$response_code = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-			$this->save_record($original_url,'GET',$param,$response_code,$output);
+			$this->save_record($original_url,'POST',$param,$response_code,$output);
 		}
 		curl_close($ch);  
 		echo $output;

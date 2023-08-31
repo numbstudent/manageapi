@@ -4,7 +4,8 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 class M_main extends CI_Model{	
 	private $table = 'api_list';
 	
-	function get_api_list(){
+	function get_api_list($like = array()){
+		$this->db->like($like);
 		$this->db->order_by('createdon DESC');
 		$this->db->select("URL,
 				REQUEST_TYPE,
