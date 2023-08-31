@@ -5,17 +5,31 @@ class Main extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		
+		$this->load->model('m_main');
 	}
  
 	public function index(){
 		// $url = 'http://103.179.56.140:7771/api/getnumber.php?user=jsu&pass=77jsu77&limit=2';
 		$url = 'http://103.179.56.140:7771/api/getnumber.php';
-		$sample_param = 'user:jsu;pass:77jsu77;limit:2';
+		$sample_param = 'user:jsu;pass:77jsu77;limit:20';
+
+		$url = 'http://103.179.56.140:7771/api/getnumberAAA.php';
+		// $sample_param = 'user:jsu;pass:77jsu77;limit:2';
 
 		// $url = 'http://103.179.56.140:7771/api/getsms.php';
 		// $sample_param = 'user:jsu;pass:77jsu77;number:6285859538256';
-		$this->get_url($url,$sample_param);
+
+		// $url = 'http://ip:8888/louissmsginbound.php';
+		// $sample_param = 'user:jsu;pass:77jsu77;number:6285859538256';
+		try {
+			if(!$url || !is_string($url) || ! preg_match('/^http(s)?:\/\/[a-z0-9-]+(.[a-z0-9-]+)*(:[0-9]+)?(\/.*)?$/i', $url)){
+				echo "Invalid url!";
+			}else{
+				$this->get_url($url,$sample_param);
+			}
+		} catch (Exception $e) {
+			echo 'Web cannot be accessed.';
+		}
 	}
  
 	public function halo(){
@@ -23,10 +37,20 @@ class Main extends CI_Controller {
 		$this->load->view('view_belajar',$data);
 	}
 
+	function save_record($url,$request_type,$parameters,$output){
+		$data = array(
+			'url' => $url,
+			'request_type' => $request_type,
+			'parameters' => $parameters,
+			'result' => $output
+		);
+		$result = $this->m_main->insert_api($data);
+	}
+
 	function get_url($url,$param){
 		// create curl resource
 		$ch = curl_init();
-
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 		// set url
 		if ($param != '') {
 			$params = explode (";", $param);
@@ -54,11 +78,12 @@ class Main extends CI_Controller {
 		// close curl resource to free up system resources
 		curl_close($ch);  
 		echo $output;
+		$this->save_record($url,'GET',$param,$output);
 	}
 
 	function post_url($url,$param){
 		$ch = curl_init();
-
+		curl_setopt($ch, CURLOPT_TIMEOUT, 10);
 		curl_setopt($ch, CURLOPT_URL,$url);
 		curl_setopt($ch, CURLOPT_POST, 1);
 		// curl_setopt($ch, CURLOPT_POSTFIELDS,
@@ -94,5 +119,6 @@ class Main extends CI_Controller {
 
 		curl_close($ch);  
 		echo $output;
+		$this->save_record($url,'POST',$param,$output);
 	}
 }
