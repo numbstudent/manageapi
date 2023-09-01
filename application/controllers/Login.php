@@ -11,7 +11,9 @@ class Login extends CI_Controller{
 	}
  
 	function index(){
+		$this->load->view('header');
 		$this->load->view('v_login');
+		$this->load->view('footer');
 	}
  
 	function aksi_login(){

@@ -35,7 +35,26 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-lg-12">
-                            <?php echo $table; ?>
+                            <table class="table" id="tblApiList">
+                                <tr>
+                                    <th>URL</th>
+                                    <th>Parameters</th>
+                                    <th>Request Type</th>
+                                    <th>Description</th>
+                                </tr>
+                                <tr>
+                                    <td><a href="<?php echo base_url().'runapi'?>"><?php echo base_url().'runapi'?></a></td>
+                                    <td>
+                                        <ol>
+                                            <li>url (ex: <code>http://103.179.56.140:7771/api/getnumber.php</code>)</li>
+                                            <li>parameters (ex: <code>user:jsu;pass:77jsu77;limit:50</code>)</li>
+                                            <li>request_type (ex: <code>GET</code> / <code>POST</code>)</li>
+                                        </ol>
+                                    </td>
+                                    <td>POST</td>
+                                    <td>Running API from other source and save the result.</td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
 

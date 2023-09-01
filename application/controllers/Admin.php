@@ -23,7 +23,7 @@ class Admin extends CI_Controller{
         // );
         // $table = $this->table->generate($tabledata);
         $template = array(
-            'table_open'            => '<table border="1" cellpadding="4" cellspacing="0">',
+            'table_open'            => '<table id="tblApiList" style="font-size:9pt;" border="1" cellpadding="4" cellspacing="0">',
 
             'thead_open'            => '<thead>',
             'thead_close'           => '</thead>',
@@ -69,6 +69,17 @@ class Admin extends CI_Controller{
             'table'=>$table
         );
 
+		$this->load->view('header');
+        $data['sidebar'] = $this->load->view('v_sidebar', NULL, TRUE);
 		$this->load->view('v_admin',$data);
+		$this->load->view('footer');
 	}
+
+    function api_list(){
+        $data = array();
+		$this->load->view('header');
+        $data['sidebar'] = $this->load->view('v_sidebar', NULL, TRUE);
+		$this->load->view('v_api_list',$data);
+		$this->load->view('footer');
+    }
 }
