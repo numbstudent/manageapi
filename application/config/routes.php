@@ -54,3 +54,5 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['apilist'] = 'admin/api_list';
 $route['runapi'] = 'main';
+$route['louismsginbound'] = 'main/save_from_operator';
+$route['louisgetfromoperator'] = 'main/get_from_operator';

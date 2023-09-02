@@ -139,4 +139,38 @@ class Main extends CI_Controller {
 		curl_close($ch);  
 		echo $output;
 	}
+
+	function save_from_operator()
+	{
+		$p_cli = $this->input->post('cli');
+		$p_to = $this->input->post('to');
+		$p_msg = $this->input->post('msg');
+		$p_uuid = $this->input->post('uuid');
+
+		$data = array(
+			'p_cli' => $p_cli,
+			'p_to' => $p_to,
+			'p_msg' => $p_msg,
+			'p_uuid' => $p_uuid
+		);
+		$result = $this->m_main->insert_api_from_operator($data);
+		echo $result;
+	}
+
+	function get_from_operator()
+	{
+		$p_cli = $this->input->post('cli');
+		$p_to = $this->input->post('to');
+		$p_msg = $this->input->post('msg');
+		$p_uuid = $this->input->post('uuid');
+
+		$data = array(
+			'p_cli' => $p_cli,
+			'p_to' => $p_to,
+			'p_msg' => $p_msg,
+			'p_uuid' => $p_uuid
+		);
+		$query = $this->m_main->get_api_from_operator($data);
+		echo json_encode($query->result());
+	}
 }
