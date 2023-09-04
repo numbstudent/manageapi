@@ -54,6 +54,33 @@
                                     <td>POST</td>
                                     <td>Running API from other source and save the result.</td>
                                 </tr>
+                                <tr>
+                                    <td><a href="<?php echo base_url().'recordsubmission'?>"><?php echo base_url().'recordsubmission'?></a></td>
+                                    <td>
+                                        <ol>
+                                            <li>cli (freetext)</li>
+                                            <li>to (freetext)</li>
+                                            <li>msg (freetext)</li>
+                                            <li>uuid (freetext)</li>
+                                        </ol>
+                                    </td>
+                                    <td>POST</td>
+                                    <td>Submit record to be saved.</td>
+                                </tr>
+                                <tr>
+                                    <td><a href="<?php echo base_url().'recordretrieval'?>"><?php echo base_url().'recordretrieval'?></a></td>
+                                    <td>
+                                        <ol>
+                                            <li>cli (freetext)</li>
+                                            <li>to (freetext)</li>
+                                            <li>msg (freetext)</li>
+                                            <li>uuid (freetext)</li>
+                                            <li>limit (integer)</li>
+                                        </ol>
+                                    </td>
+                                    <td>POST</td>
+                                    <td>Retrieve saved record.</td>
+                                </tr>
                             </table>
                         </div>
                     </div>

@@ -22,13 +22,17 @@ class M_main extends CI_Model{
 		return $this->db->insert('record_from_operator', $data);
 	}
 
-	function get_api_from_operator($like = array()){
+	function get_api_from_operator($like = array(),$limit = null){
+		if($limit != null){
+			$this->db->limit($limit);
+		}
 		$this->db->like($like);
 		$this->db->order_by('p_createdon DESC');
 		$this->db->select("P_CLI AS 'cli',
 				P_TO AS 'to',
 				P_MSG AS 'msg',
-				P_UUID AS 'uuid'", FALSE);
+				P_UUID AS 'uuid',
+				P_CREATEDON AS 'createdon'", FALSE);
 		return $this->db->get('record_from_operator');
 	}
 }

@@ -82,4 +82,57 @@ class Admin extends CI_Controller{
 		$this->load->view('v_api_list',$data);
 		$this->load->view('footer');
     }
+
+
+	function receivedfromoperator(){
+        $template = array(
+            'table_open'            => '<table id="tblApiList" style="font-size:9pt;" border="1" cellpadding="4" cellspacing="0">',
+
+            'thead_open'            => '<thead>',
+            'thead_close'           => '</thead>',
+
+            'heading_row_start'     => '<tr>',
+            'heading_row_end'       => '</tr>',
+            'heading_cell_start'    => '<th>',
+            'heading_cell_end'      => '</th>',
+
+            'tbody_open'            => '<tbody>',
+            'tbody_close'           => '</tbody>',
+
+            'row_start'             => '<tr>',
+            'row_end'               => '</tr>',
+            'cell_start'            => '<td>',
+            'cell_end'              => '</td>',
+
+            'row_alt_start'         => '<tr>',
+            'row_alt_end'           => '</tr>',
+            'cell_alt_start'        => '<td>',
+            'cell_alt_end'          => '</td>',
+
+            'table_close'           => '</table>'
+        );
+
+        $this->table->set_template($template);
+
+        $f_cli = $this->input->post('f_cli');
+		$f_to = $this->input->post('f_to');
+		$f_msg = $this->input->post('f_msg');
+		$f_uuid = $this->input->post('f_uuid');
+
+        $like = array();
+        $like['p_cli'] = $f_cli;
+        $like['p_to'] = $f_to;
+        $like['p_msg'] = $f_msg;
+        $like['p_uuid'] = $f_uuid;
+        $query = $this->m_main->get_api_from_operator($like);
+        $table = $this->table->generate($query);
+        $data = array(
+            'table'=>$table
+        );
+
+		$this->load->view('header');
+        $data['sidebar'] = $this->load->view('v_sidebar', NULL, TRUE);
+		$this->load->view('v_receivedfromoperator',$data);
+		$this->load->view('footer');
+	}
 }

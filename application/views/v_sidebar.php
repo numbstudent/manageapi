@@ -27,6 +27,12 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
+                                    <a href="<?php echo base_url().'receivedfromoperator'?>" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>RCVD FROM OPERATOR</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
                                     <a href="<?php echo base_url().'apilist'?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
                                         <p>API List</p>

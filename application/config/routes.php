@@ -49,10 +49,15 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 | Examples:	my-controller/index	-> my_controller/index
 |		my-controller/my-method	-> my_controller/my_method
 */
-$route['default_controller'] = 'main';
+$route['default_controller'] = 'admin';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['apilist'] = 'admin/api_list';
+$route['receivedfromoperator'] = 'admin/receivedfromoperator';
 $route['runapi'] = 'main';
 $route['louismsginbound'] = 'main/save_from_operator';
+//alias
+$route['recordsubmission'] = 'main/save_from_operator';
 $route['louisgetfromoperator'] = 'main/get_from_operator';
+//alias
+$route['recordretrieval'] = 'main/get_from_operator';

@@ -142,10 +142,10 @@ class Main extends CI_Controller {
 
 	function save_from_operator()
 	{
-		$p_cli = $this->input->post('cli');
-		$p_to = $this->input->post('to');
-		$p_msg = $this->input->post('msg');
-		$p_uuid = $this->input->post('uuid');
+		$p_cli = $this->input->post('cli',TRUE);
+		$p_to = $this->input->post('to',TRUE);
+		$p_msg = $this->input->post('msg',TRUE);
+		$p_uuid = $this->input->post('uuid',TRUE);
 
 		$data = array(
 			'p_cli' => $p_cli,
@@ -154,7 +154,19 @@ class Main extends CI_Controller {
 			'p_uuid' => $p_uuid
 		);
 		$result = $this->m_main->insert_api_from_operator($data);
-		echo $result;
+		if($result){
+			$response = array('status' => 'OK');
+			$this->output
+				->set_status_header(200)
+				->set_content_type('application/json', 'utf-8')
+				->set_output(json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+		}else{
+			$response = array('status' => 'FAILED');
+			$this->output
+				->set_status_header(500)
+				->set_content_type('application/json', 'utf-8')
+				->set_output(json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+		}
 	}
 
 	function get_from_operator()
@@ -163,6 +175,9 @@ class Main extends CI_Controller {
 		$p_to = $this->input->post('to');
 		$p_msg = $this->input->post('msg');
 		$p_uuid = $this->input->post('uuid');
+		$p_limit = $this->input->post('limit');
+
+		$p_limit = (int)$p_limit;
 
 		$data = array(
 			'p_cli' => $p_cli,
@@ -170,7 +185,10 @@ class Main extends CI_Controller {
 			'p_msg' => $p_msg,
 			'p_uuid' => $p_uuid
 		);
-		$query = $this->m_main->get_api_from_operator($data);
-		echo json_encode($query->result());
+		$query = $this->m_main->get_api_from_operator($data,$p_limit);
+		// echo json_encode($query->result());
+		$this->output
+			->set_content_type('application/json')
+			->set_output(json_encode($query->result()));		
 	}
 }
