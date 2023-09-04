@@ -84,7 +84,7 @@ class Admin extends CI_Controller{
     }
 
 
-	function receivedfromoperator(){
+	function recordsubmission(){
         $template = array(
             'table_open'            => '<table id="tblApiList" style="font-size:9pt;" border="1" cellpadding="4" cellspacing="0">',
 
@@ -132,7 +132,7 @@ class Admin extends CI_Controller{
 
 		$this->load->view('header');
         $data['sidebar'] = $this->load->view('v_sidebar', NULL, TRUE);
-		$this->load->view('v_receivedfromoperator',$data);
+		$this->load->view('v_recordsubmission_list',$data);
 		$this->load->view('footer');
 	}
 }
