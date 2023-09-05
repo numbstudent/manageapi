@@ -53,7 +53,7 @@ $route['default_controller'] = 'admin';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['apilist'] = 'admin/api_list';
-$route['recordsubmission'] = 'admin/recordsubmission';
+$route['recordsubmissionlist'] = 'admin/recordsubmission';
 $route['runapi'] = 'main';
 $route['louismsginbound'] = 'main/save_from_operator';
 //alias
