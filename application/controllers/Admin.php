@@ -138,7 +138,8 @@ class Admin extends CI_Controller{
 
     function guidv4($data = null) {
         // Generate 16 bytes (128 bits) of random data or use the data passed into the function.
-        $data = $data ?? random_bytes(16);
+        // $data = $data ?? random_bytes(16);
+        $data = isset($data) ? $data : random_bytes(16);
         assert(strlen($data) == 16);
 
         // Set version to 0100
