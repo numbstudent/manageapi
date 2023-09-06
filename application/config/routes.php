@@ -54,10 +54,16 @@ $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
 $route['apilist'] = 'admin/api_list';
 $route['recordsubmissionlist'] = 'admin/recordsubmission';
+
 $route['runapi'] = 'main';
+
 $route['louismsginbound'] = 'main/save_from_operator';
 //alias
 $route['recordsubmission'] = 'main/save_from_operator';
+
 $route['louisgetfromoperator'] = 'main/get_from_operator';
 //alias
 $route['recordretrieval'] = 'main/get_from_operator';
+
+$route['generateapikey'] = 'admin/generate_api';
+$route['apikeylist'] = 'admin/apikey_list';

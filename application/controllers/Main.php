@@ -6,6 +6,37 @@ class Main extends CI_Controller {
 	function __construct(){
 		parent::__construct();
 		$this->load->model('m_main');
+
+		$p_apikey = $this->input->post('apikey',TRUE);
+		if(!isset($p_apikey) == true){
+			$response = array('status' => 'FAILED: API KEY NOT FOUND');
+			echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+			$this->output
+				->set_status_header(500)
+				->set_content_type('application/json', 'utf-8');
+			// 	// ->set_output(json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+			exit;
+		}else{
+			$result = $this->check_apikey($p_apikey);
+			if(count($result)<=0){
+				$response = array('status' => 'FAILED: CANNOT ACCEPT API KEY');
+				echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+				$this->output
+					->set_status_header(500)
+					->set_content_type('application/json', 'utf-8');
+				exit;
+			}
+		}
+	}
+
+	function check_apikey($p_apikey){
+		$format = "Y-m-d";
+		$data = array(
+			'apikey' => trim($p_apikey),
+			'validuntil >=' => date($format),
+		);
+		$query = $this->m_main->get_apikey($data)->result();
+		return $query;
 	}
  
 	public function index(){
@@ -147,25 +178,33 @@ class Main extends CI_Controller {
 		$p_msg = $this->input->post('msg',TRUE);
 		$p_uuid = $this->input->post('uuid',TRUE);
 
-		$data = array(
-			'p_cli' => $p_cli,
-			'p_to' => $p_to,
-			'p_msg' => $p_msg,
-			'p_uuid' => $p_uuid
-		);
-		$result = $this->m_main->insert_api_from_operator($data);
-		if($result){
-			$response = array('status' => 'OK');
-			$this->output
-				->set_status_header(200)
-				->set_content_type('application/json', 'utf-8')
-				->set_output(json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
-		}else{
+		if(!isset($p_cli) || !isset($p_to) || !isset($p_msg) || !isset($p_uuid)){
 			$response = array('status' => 'FAILED');
 			$this->output
 				->set_status_header(500)
 				->set_content_type('application/json', 'utf-8')
 				->set_output(json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+		}else{
+			$data = array(
+				'p_cli' => $p_cli,
+				'p_to' => $p_to,
+				'p_msg' => $p_msg,
+				'p_uuid' => $p_uuid
+			);
+			$result = $this->m_main->insert_api_from_operator($data);
+			if($result){
+				$response = array('status' => 'OK');
+				$this->output
+					->set_status_header(200)
+					->set_content_type('application/json', 'utf-8')
+					->set_output(json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+			}else{
+				$response = array('status' => 'FAILED');
+				$this->output
+					->set_status_header(500)
+					->set_content_type('application/json', 'utf-8')
+					->set_output(json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
+			}
 		}
 	}
 
