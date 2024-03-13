@@ -27,9 +27,15 @@
                                     </a>
                                 </li>
                                 <li class="nav-item">
-                                    <a href="<?php echo base_url().'recordsubmission'?>" class="nav-link">
+                                    <a href="<?php echo base_url().'recordsubmissionlist'?>" class="nav-link">
                                         <i class="far fa-circle nav-icon"></i>
-                                        <p>RECORDS SUBMITTED</p>
+                                        <p>Records Submitted</p>
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="<?php echo base_url().'apikeylist'?>" class="nav-link">
+                                        <i class="far fa-circle nav-icon"></i>
+                                        <p>API Key List</p>
                                     </a>
                                 </li>
                                 <li class="nav-item">

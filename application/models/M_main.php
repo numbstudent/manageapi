@@ -35,4 +35,17 @@ class M_main extends CI_Model{
 				P_CREATEDON AS 'createdon'", FALSE);
 		return $this->db->get('record_from_operator');
 	}
+
+	function get_apikey($where = array()){
+		$this->db->where($where);
+		$this->db->order_by('createdon DESC');
+		$this->db->select("CONCAT(\"<code>\",APIKEY,\"</code>\") AS APIKEY,
+				IF (VALIDUNTIL<CURDATE(),CONCAT(VALIDUNTIL,\" (EXPIRED)\"),VALIDUNTIL) AS VALIDUNTIL,
+				CREATEDON", FALSE);
+		return $this->db->get('api_key');
+	}
+
+	function insert_apikey($data){
+		return $this->db->insert('api_key', $data);
+	}
 }
